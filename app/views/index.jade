@@ -33,17 +33,10 @@ html(ng-app='app', ng-controller='AppController')
     header
 
     .container
-      .page-header
-        h1 Frontend Boilerplate
-        .menu
-          a(ui-sref="main") Home
-          a(ui-sref="about") About
-
       div(ui-view="guest")
 
     footer
       .container
-        p.text-muted Made with love.
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
@@ -51,6 +44,10 @@ html(ng-app='app', ng-controller='AppController')
     script(src='../../bower_components/angular/angular.js')
     script(src='../../bower_components/angular-ui-router/release/angular-ui-router.js')
     script(src='../../bower_components/bootstrap/dist/js/bootstrap.js')
+    script(src='../../bower_components/ripple/ripple.js')
+    script(src='../../bower_components/store/dist/store2.js')
+    script(src='../../bower_components/moment/moment.js')
+    script(src='../../bower_components/bignumber.js/bignumber.js')
     <!-- endbower -->
     <!-- endbuild -->
 

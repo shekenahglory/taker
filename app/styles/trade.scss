@@ -1,0 +1,420 @@
+.trade {
+  display:table-row;
+}
+
+.trade .pairs {
+  display:table-cell;
+  overflow:hidden;
+  vertical-align: top;
+  text-align: left;
+}
+
+.trade .pair {
+  background:rgba(150,150,150,.2);
+  border-radius: 3px;
+  margin: 2px;
+  width:160px;
+  padding: 3px;
+  color:#aaa;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  display:inline-block;
+
+  animation-name: fadein;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  -webkit-animation-name: fadein;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-fill-mode: forwards;
+}
+
+.trade .pair:hover {
+  background:rgba(150,150,150,.25);
+}
+
+.trade .pair .currencies .base,
+.trade .pair .currencies .counter, {
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  padding:2px;
+}
+
+.trade .pair .currencies .base .currency {
+  text-align: right;
+}
+
+.trade .pair .currencies .slash {
+  vertical-align:top;
+  font-size:12px;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.trade .pair .currencies .currency {
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.trade .pair .currencies .issuer {
+  font-size: 10px;
+  height: 15px;
+  width: 67px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow:hidden;
+  color:#456;
+}
+
+.trade .pair .currencies .base .issuer {
+  text-align: right;
+}
+
+.trade .pair .last {
+  padding: 0;
+  width: 150px;
+  text-align:center;
+  font-size: 18px;
+  font-weight: 200;
+  color: #777;
+}
+
+.trade .pair.selected {
+  background:rgba(200,200,200,.3);
+  color:#fff;
+}
+
+.trade .pair.selected .last {
+  color:#ccc;
+}
+
+.trade .pair .pin {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 16px 16px 0;
+  position:absolute;
+  right:0;
+  top:0;
+  opacity: 0;
+  animation-name: unpin;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+  -webkit-animation-name: unpin;
+  -webkit-animation-duration: .5s;
+  -webkit-animation-fill-mode: forwards;
+}
+
+.trade .pair .pin:hover {
+  opacity:.5;
+}
+
+.trade .pair .pin.pinned {
+  opacity:.7;
+  animation-name: pin;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+  -webkit-animation-name: pin;
+  -webkit-animation-duration: .5s;
+  -webkit-animation-fill-mode: forwards;
+}
+@-webkit-keyframes pin {
+  0%   {border-color: transparent #666 transparent transparent;}
+  100% {border-color: transparent #49f transparent transparent;}
+}
+
+@keyframes pin {
+  0%   {border-color: transparent #666 transparent transparent;}
+  100% {border-color: transparent #49f transparent transparent;}
+}
+
+@-webkit-keyframes unpin {
+  100%   {border-color: transparent #666 transparent transparent;}
+  0% {border-color: transparent #49f transparent transparent;}
+}
+
+@keyframes unpin {
+  100%   {border-color: transparent #666 transparent transparent;}
+  0% {border-color: transparent #49f transparent transparent;}
+}
+
+.trade .pair .pin.pinned:hover {
+  opacity: .9;
+}
+
+.trade .pair.up {
+  animation-name: up;
+  animation-duration: 1.5s;
+  -webkit-animation-name: up;
+  -webkit-animation-duration: 1.5s;
+}
+@-webkit-keyframes up {
+  0%   {background-color: #222;}
+  20%  {background-color: green;}
+  100% {background-color: #020;}
+}
+
+@keyframes up {
+  0%   {background-color: #222;}
+  20%  {background-color: green;}
+  100% {background-color: #020;}
+}
+
+.trade .pair.down {
+  animation-name: down;
+  animation-duration: 1.5s;
+  -webkit-animation-name: down;
+  -webkit-animation-duration: 1.5s;
+}
+
+@-webkit-keyframes down {
+  0%   {background-color: #222;}
+  20%  {background-color: red;}
+  100% {background-color: #200;}
+}
+
+@keyframes down {
+  0%   {background-color: #222;}
+  20%  {background-color: red;}
+  100% {background-color: #200;}
+}
+
+@-webkit-keyframes fadein {
+  0%   {opacity:0}
+  100% {opacity:1}
+}
+
+@keyframes fadein {
+  0%   {opacity:0}
+  100% {opacity:1}
+}
+
+.trade .pair.unch {
+  animation-name: unch;
+  animation-duration: 1.5s;
+  -webkit-animation-name: unch;
+  -webkit-animation-duration: 1.5s;
+}
+
+@-webkit-keyframes unch {
+  0%   {background-color: #222;}
+  20%  {background-color: #999;}
+  100% {background-color: #252525;}
+}
+
+@keyframes unch {
+  0%   {background-color: #222;}
+  20%  {background-color: #999;}
+  100% {background-color: #252525;}
+}
+
+.detail {
+  display:table-cell;
+  vertical-align:top;
+  border-left:2px solid #333;
+}
+
+.detail .wrap {
+  overflow:hidden;
+  position:relative;
+  animation-name: open;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+  -webkit-animation-name: open;
+  -webkit-animation-duration: .5s;
+  -webkit-animation-fill-mode: forwards;
+  padding-bottom:10px;
+  width:1px;
+  opacity:0;
+}
+
+.detail .wrap.closed {
+  animation-name: close;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+  -webkit-animation-name: close;
+  -webkit-animation-duration: .5s;
+  -webkit-animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes open {
+  0%   {width:1px; opacity:0}
+  100% {width:620px; opacity:1}
+}
+
+@keyframes open {
+  0%   {width:1px; opacity:0}
+  100% {width:620px; opacity:1}
+}
+
+@-webkit-keyframes close {
+  0%   {opacity:1}
+  100% {width:1px; opacity:0}
+}
+
+@keyframes close {
+  0%   {opacity:1}
+  100% {width:1px; opacity:0}
+}
+
+.pairs .box {
+  padding:10px;
+  transform-origin: 0 0 0;
+  -webkit-transform-origin: 0 0 0;
+  animation-name: unshrink;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+  -webkit-animation-name: unshrink;
+  -webkit-animation-duration: .5s;
+  -webkit-animation-fill-mode: forwards;
+}
+
+.pairs .box.shrink {
+  animation-name: shrink;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+  -webkit-animation-name: shrink;
+  -webkit-animation-duration: .5s;
+  -webkit-animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes unshrink {
+  0% { -webkit-transform: scale(.75); transform: scale(.75); width:130%}
+  100% {-webkit-transform: scale(1); transform: scale(1); width:100%}
+}
+
+@keyframes unshrink {
+  0% { -webkit-transform: scale(.75); transform: scale(.75); width:130%}
+  100% {-webkit-transform: scale(1); transform: scale(1); width:100%}
+}
+
+@-webkit-keyframes shrink {
+  100% { -webkit-transform: scale(.75); transform: scale(.75); width:130%}
+  0% {-webkit-transform: scale(1); transform: scale(1); width:100%}
+}
+
+@keyframes shrink {
+  100% { -webkit-transform: scale(.75); transform: scale(.75); width:130%}
+  0% {-webkit-transform: scale(1); transform: scale(1); width:100%}
+}
+
+.detail .wrap .closeButton {
+  text-align:right;
+  padding:5px 25px;
+  color:#888;
+}
+
+.detail .wrap #chart {
+  height:400px;
+  overflow:hidden;
+  border:none;
+  background:#000;
+  margin-left:-10px;
+  border-bottom: 1px solid #444;
+}
+
+.detail .wrap #chart.dark .priceChart .axis text {
+  fill: #333;
+  stroke: #333;
+}
+
+.detail .description {
+  width:620px;
+  background:#333;
+  text-align: left;
+  color:#ccc;
+  padding:0;
+  overflow:hidden;
+}
+
+.detail .description .currencies {
+  width: 430px;
+  display:inline-block;
+  vertical-align: top;
+  font-size:14px;
+  padding:2px;
+}
+
+.detail .description .currencies .base,
+.detail .description .currencies .counter, {
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  padding:5px;
+}
+
+.detail .description .currencies .base  {
+  text-align: right;
+}
+
+.detail .description .currencies .counter {
+  text-align: left;
+}
+
+.detail .description .currencies .slash {
+  vertical-align:top;
+  font-size:18px;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.detail .description .currency {
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.detail .description .issuer {
+  font-size: 9px;
+  height: 12px;
+  line-height:12px;
+  width: 200px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow:hidden;
+  color:#888;
+}
+
+.detail .description .name {
+  color:#69f;
+  font-size:14px;
+  line-height:16px;
+}
+
+.detail .description .base .issuer {
+  text-align: right;
+}
+
+.detail .description .last {
+  padding: 0;
+  padding:15px;
+  margin:0;
+  float:right;
+  text-align: right;
+  font-size: 22px;
+  font-weight: 200;
+  color: #aaa;
+  background:#282828;
+  min-width:180px;
+}
+
+.detail .description .last.up {
+  animation-name: up;
+  animation-duration: 1.5s;
+  -webkit-animation-name: up;
+  -webkit-animation-duration: 1.5s;
+}
+
+.detail .description .last.down {
+  animation-name: down;
+  animation-duration: 1.5s;
+  -webkit-animation-name: down;
+  -webkit-animation-duration: 1.5s;
+}
+
+.detail .description .last.unch {
+  animation-name: unch;
+  animation-duration: 1.5s;
+  -webkit-animation-name: unch;
+  -webkit-animation-duration: 1.5s;
+}

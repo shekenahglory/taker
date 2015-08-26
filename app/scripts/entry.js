@@ -2,7 +2,12 @@
 
 var appDependencies = [
   'ng',
-  'ui.router'
+  'ui.router',
+  'store',
+  'network',
+  'pricebook',
+  'tradefeed',
+  'rippleName'
 ];
 
 angular
@@ -12,6 +17,14 @@ angular
 
 require('./app.controller');
 require('./about.controller');
+require('./main.controller');
+
+require('./directives/pricebook');
+
+require('./services/network');
+require('./services/names');
+require('./services/store');
+require('./services/tradefeed');
 
 appConfig.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
 

@@ -4,9 +4,9 @@ angular
   .module('app')
   .controller('AppController', AppController);
 
-AppController.$inject = ['$rootScope'];
+AppController.$inject = ['$rootScope', 'rpNetwork'];
 
-function AppController ($scope)
+function AppController ($scope, network)
 {
-
+  network.init();
 }

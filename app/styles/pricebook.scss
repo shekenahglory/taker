@@ -1,0 +1,156 @@
+.detail .orderbook {
+  overflow: hidden;
+  clear: both;
+  height: 1640px;
+}
+
+
+.orderbook table {
+  width: 50%;
+  font-size:12px;
+  text-align:right;
+  border-collapse:collapse;
+  //border:1px solid #222;
+  color:#667;
+}
+.orderbook table th {
+  font-size:15px;
+  color:#666;
+  font-weight:normal;
+  padding: 5px 15px;
+  text-align:right;
+}
+.orderbook table th span {
+  display:block;
+  font-size:12px;
+  font-weight:bold;
+  color:#345;
+}
+
+.orderbook table th.type {
+  text-align:center;
+  font-size:16px;
+  background:#eee;
+  text-transform:uppercase;
+}
+
+.orderbook table td {
+  padding: 2px 15px;
+  min-width:20px;
+  line-height: 1.4em;
+  max-height: 1.4em;
+  overflow: hidden;
+}
+
+.orderbook table td.price,
+.orderbook table td.sum,
+.orderbook table td.size {
+  text-align: right;
+}
+
+.orderbook tr.new td {
+  -webkit-animation-name: new-order;
+  -webkit-animation-duration: 2s;
+
+  animation-name: new-order;
+  animation-duration: 2s;
+}
+
+.orderbook tr.more td {
+  -webkit-animation-name: more;
+  -webkit-animation-duration: 2s;
+
+  animation-name: more;
+  animation-duration: 2s;
+}
+
+.orderbook tr.less td {
+  -webkit-animation-name: less;
+  -webkit-animation-duration: 2s;
+
+  animation-name: less;
+  animation-duration: 2s;
+}
+
+.orderbook table tr.remove {
+  -webkit-animation-name: remove;
+  -webkit-animation-duration: .8s;
+
+  animation-name: remove;
+  animation-duration: .8s;
+}
+
+@-webkit-keyframes new-order {
+  0%   {color: inherit; font-size:0; opacity:0}
+  10%  {color: #58d; font-weight:bold; background-color: rgba(20,70,180,.1)}
+  20%   {font-size:1em; opacity:1}
+  100% {color: inherit;}
+}
+
+@keyframes new-order {
+  0%   {color: inherit; font-size:0; opacity:0}
+  10%  {color: #58d; font-weight:bold; background-color: rgba(20,70,180,.1)}
+  20%   {font-size:1em; opacity:1}
+  100% {color: inherit;}
+}
+
+@-webkit-keyframes less {
+  0%   {color: inherit;}
+  10%  {color: Red; font-weight:bold; background-color: rgba(180,0,0,.1)}
+  100% {color: inherit;}
+}
+
+@keyframes less {
+  0%   {color: inherit;}
+  10%  {color: Red; font-weight:bold; background-color: rgba(180,0,0,.1)}
+  100% {color: inherit;}
+}
+
+@-webkit-keyframes more {
+  0%   {color: inherit;}
+  10%  {color: Green; font-weight:bold; background-color: rgba(20,120,20,.1)}
+  100% {color: inherit;}
+}
+
+@keyframes more {
+  0%   {color: inherit;}
+  20%  {color: Green; font-weight:bold; background-color: rgba(20,120,20,.1)}
+  100% {color: inherit;}
+}
+
+@-webkit-keyframes remove {
+  0%   {color: inherit;}
+  20%  {color: #522; font-weight:bold;}
+  100% {font-size:0; opacity:0; padding:0}
+}
+
+@keyframes remove {
+  0%   {color: inherit;}
+  20%  {color: #522; font-weight:bold;}
+  100% {font-size:0; opacity:0; padding:0}
+}
+
+.orderbook td.sum {
+  opacity: .9
+}
+
+.orderbook td .decimal {
+  opacity: .6;
+}
+
+.orderbook td .insig {
+  opacity: .4;
+}
+
+
+.orderbook tbody tr:nth-child(odd) {
+  background:rgba(150,150,150,.1);
+}
+
+.orderbook .bidsTable {
+  float: left;
+}
+
+.orderbook .asksTable {
+  float: right;
+}

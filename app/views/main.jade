@@ -1,1 +1,16 @@
-p.lead Happiness lies in the joy of achievement and the thrill of creative effort.
+.trade(ng-controller="MainController")
+  .pairs
+    .box(ng-class="{shrink:current.index !== null}")
+      .pair(ng-repeat="pair in pairs", ng-click="current.index=$index",
+      ng-class="{selected:current.index===$index}", class="{{pair.direction}}")
+        .pin(ng-class="{pinned:pair.pinned}", ng-click="togglePin(pair); $event.stopPropagation();")
+        .currencies
+          .base
+            .currency {{ pair.base.currency }}
+            .issuer(title="{{ pair.base.issuer }}") {{ pair.base.label }}
+          .slash |
+          .counter
+            .currency {{ pair.counter.currency }}
+            .issuer(title="{{ pair.counter.issuer }}") {{ pair.counter.label }}
+        .last
+          span.price(ng-bind="pair.last")
