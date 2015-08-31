@@ -1,47 +1,109 @@
 (function () {
 'use strict';
 
-angular
-  .module('rippleName', [])
-  .factory('rippleName', rippleName);
-
-rippleName.$inject = ['$rootScope', '$http'];
-
-function rippleName($scope, $http) {
+angular.module('rippleName', [])
+.factory('rippleName', function($http) {
   var names = { };
-  var getName = function (address, callback) {
+  var reversed = { };
+  var URL = 'https://id.ripple.com/.well-known/webfinger?resource=';
+  var addressRel = 'https://ripple.com/rel/ripple-address';
+  var nameRel = 'https://ripple.com/rel/ripple-name';
 
-    if (names[address] && names[address] === '#pending') {
+  /**
+   * getRef
+   * get value for relational
+   */
 
-      setTimeout(function() {
-        getName(address, callback);
-      }, 100);
+  var getRef = function (rel, links) {
+    var ref;
+    links.every(function(link) {
+      if (link.rel !== rel) {
+        return true;
+      }
 
+      ref = link.href;
+      return false;
+    });
 
-    } else if (names[address] && names[address] === '#unknown') {
+    return ref;
+  };
+
+  var lookupRequest = function (url, callback) {
+    $http.get(url)
+    .success(function(resp) {
+      var data;
+
+      if (resp.links && resp.links.length) {
+        data = {
+          name: getRef(nameRel, resp.links),
+          address: getRef(addressRel, resp.links)
+        };
+      }
+
+      callback(data);
+    }).error(function(err) {
+      console.log(err);
       callback();
+    });
+  }
 
-    } else if (names[address]) {
-      callback(names[address]);
+  /**
+   * lookup
+   * lookup name/address
+   */
 
-    } else {
-      names[address] = '#pending';
-      $http.get('https://id.ripple.com/v1/user/'+address)
-      .success(function(resp) {
-        if (resp.username) {
-          names[address] = resp.username;
-          callback(names[address]);
-        } else {
-          names[address] = '#unknown';
-          callback();
-        }
-      }).error(function(err) {
-        names[address] = '#unknown';
-        callback();
-      });
+  var lookup = function (text, callback) {
+    var type;
+    var name;
+    var address;
+
+    // by address NOTE: should validate ripple address
+    if (text && text.length > 20) {
+      lookupHelper(text, names, callback);
+    } else if (text) {
+      lookupHelper(text, reversed, callback);
+    }
+
+    // handle lookup
+    function lookupHelper (comp, cache, cb) {
+      if (cache[comp] && cache[comp] === '#pending') {
+
+        setTimeout(function() {
+          lookup(comp, cb);
+        }, 50);
+
+      } else if (cache[comp] && cache[comp] === '#unknown') {
+        cb();
+
+      } else if (cache[comp]) {
+        cb(cache[comp]);
+
+      } else {
+        cache[comp] = '#pending';
+        lookupRequest(URL + comp, function(resp) {
+          if (resp) {
+            names[resp.address] = resp.name;
+            reversed[resp.name] = resp.address;
+
+            // include a link
+            // for the name as it
+            // originally came as well
+            if (type === 'name') {
+              reversed[comp] = resp.address;
+            }
+
+            cb(resp.name);
+
+          } else {
+            cache[comp] = '#unknown';
+            cb();
+          }
+        });
+      }
     }
   }
 
-  return getName;
-}
+  return lookup;
+});
+
 }());
