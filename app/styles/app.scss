@@ -1,45 +1,14 @@
 html {
   position: relative;
-  min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
   background: #000;
 }
 
-.header {
-  padding-bottom: 9px;
-  margin: 10px 0 20px;
-  border-bottom: 1px solid #444;
-}
-
-.header h2 {
-  margin: 5px 0;
-}
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  background-color: #222;
-}
-
-.container {
-  width: auto;
-  max-width: 900px;
-  padding: 0 15px;
-}
-.container .text-muted {
-  margin: 20px 0;
-}
-.menu {
-  a {
-    margin: 0 10px 0 0;
-  }
+.main {
 }
 
 @import 'trade';
+@import 'chart';
 @import 'pricebook';

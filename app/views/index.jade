@@ -32,8 +32,7 @@ html(ng-app='app', ng-controller='AppController')
   body
     header
 
-    .container
-      div(ui-view="guest")
+    .main(ui-view="main")
 
     footer
       .container
@@ -44,10 +43,12 @@ html(ng-app='app', ng-controller='AppController')
     script(src='../../bower_components/angular/angular.js')
     script(src='../../bower_components/angular-ui-router/release/angular-ui-router.js')
     script(src='../../bower_components/bootstrap/dist/js/bootstrap.js')
+    script(src='../../bower_components/d3/d3.js')
     script(src='../../bower_components/ripple/ripple.js')
     script(src='../../bower_components/store/dist/store2.js')
     script(src='../../bower_components/moment/moment.js')
     script(src='../../bower_components/bignumber.js/bignumber.js')
+    script(src='../../bower_components/TechanJS/dist/techan.js')
     <!-- endbower -->
     <!-- endbuild -->
 

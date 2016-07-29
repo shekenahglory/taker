@@ -1,6 +1,22 @@
 .trade(ng-controller="MainController")
+  .detail(ng-class="{closed:current.index === null}")
+    .closeButton(ng-click="current.index = null") close
+    .description
+      .currencies
+        .base
+          .currency {{ current.pair.base.currency }}
+          .name {{ current.base }}
+          .issuer {{ current.pair.base.issuer }}
+        .slash |
+        .counter
+          .currency {{ current.pair.counter.currency }}
+          .name {{ current.counter }}
+          .issuer {{ current.pair.counter.issuer }}
+      .last(ng-bind="current.pair.last", class="{{current.pair.direction}}")
+    div(chart="chartOptions")
+    div(pricebook="pricebookOptions")
   .pairs
-    .box(ng-class="{shrink:current.index !== null}")
+    .wrap(ng-class="{shrink:current.index !== null}")
       .pair(ng-repeat="pair in pairs", ng-click="current.index=$index",
       ng-class="{selected:current.index===$index}", class="{{pair.direction}}")
         .pin(ng-class="{pinned:pair.pinned}", ng-click="togglePin(pair); $event.stopPropagation();")

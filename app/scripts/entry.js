@@ -5,6 +5,7 @@ var appDependencies = [
   'ui.router',
   'store',
   'network',
+  'chart',
   'pricebook',
   'tradefeed',
   'rippleName'
@@ -16,9 +17,9 @@ angular
   .constant('config', require('../../config.json'));
 
 require('./app.controller');
-require('./about.controller');
 require('./main.controller');
 
+require('./directives/chart');
 require('./directives/pricebook');
 
 require('./services/network');
@@ -33,10 +34,6 @@ function appConfig ($stateProvider, $urlRouterProvider, $locationProvider) {
     {
       name: 'main',
       path: ''
-    },
-    {
-      name: 'about',
-      path: 'about'
     }
   ];
 
@@ -44,7 +41,7 @@ function appConfig ($stateProvider, $urlRouterProvider, $locationProvider) {
     $stateProvider.state(route.name, {
       url: '/' + route.path,
       views: {
-        guest: { templateUrl: 'views/' + route.name + '.html' }
+        main: { templateUrl: 'views/' + route.name + '.html' }
       }
     });
   });

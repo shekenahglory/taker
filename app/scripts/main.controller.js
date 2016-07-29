@@ -150,14 +150,11 @@ function MainController ($scope, $http, $sce, store, tradefeed, rippleName)
       $scope.book.unsubscribe();
     }
 
-    /*
-    chart.load({
+    $scope.chartOptions = {
       base: pair.base,
       counter: pair.counter,
-      interval: 'hour',
-      theme: 'dark'
-    });
-    */
+      interval: '1hour'
+    }
 
     var url = 'https://www.ripplecharts.com/embed/pricechart?' +
         'theme=dark&interval=hour&type=candlestick' +

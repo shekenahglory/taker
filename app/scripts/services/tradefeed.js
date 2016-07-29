@@ -375,7 +375,7 @@ function parseExchanges(tx) {
       buyer        : counterparty,
       seller       : tx.Account,
       taker        : tx.Account,
-      provider     : node.FinalFields.Account,
+      provider     : counterparty,
       sequence     : node.FinalFields.Sequence,
       time         : tx.executed_time,
       tx_type      : tx.TransactionType,

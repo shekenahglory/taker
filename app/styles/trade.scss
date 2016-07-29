@@ -1,12 +1,22 @@
 .trade {
-  display:table-row;
+  width: 100%;
+  height: 100%;
 }
 
 .trade .pairs {
-  display:table-cell;
   overflow:hidden;
   vertical-align: top;
-  text-align: left;
+  text-align: center;
+  padding: 30px 10px;
+}
+
+.trade .pairs .wrap {
+  text-align:left;
+  width: 820px;
+  display: inline-block;
+  padding: 0;
+  transition: all 1.5s ease;
+  zoom: .75;
 }
 
 .trade .pair {
@@ -210,102 +220,30 @@
 }
 
 .detail {
-  display:table-cell;
-  vertical-align:top;
-  border-left:2px solid #333;
-}
-
-.detail .wrap {
+  width:620px;
+  opacity:1;
+  transition: all 0.5s ease;
   overflow:hidden;
-  position:relative;
-  animation-name: open;
-  animation-duration: .5s;
-  animation-fill-mode: forwards;
-  -webkit-animation-name: open;
-  -webkit-animation-duration: .5s;
-  -webkit-animation-fill-mode: forwards;
-  padding-bottom:10px;
-  width:1px;
-  opacity:0;
+  float:left;
+  border: 1px solid #222;
+  background: rgba(0,0,0,.85);
+  z-index: 1;
 }
 
-.detail .wrap.closed {
-  animation-name: close;
-  animation-duration: .5s;
-  animation-fill-mode: forwards;
-  -webkit-animation-name: close;
-  -webkit-animation-duration: .5s;
-  -webkit-animation-fill-mode: forwards;
+.detail.closed {
+  width: 1px;
+  opacity: 0;
+  transition: all 0.5s ease;
+  height: 0;
 }
 
-@-webkit-keyframes open {
-  0%   {width:1px; opacity:0}
-  100% {width:620px; opacity:1}
-}
-
-@keyframes open {
-  0%   {width:1px; opacity:0}
-  100% {width:620px; opacity:1}
-}
-
-@-webkit-keyframes close {
-  0%   {opacity:1}
-  100% {width:1px; opacity:0}
-}
-
-@keyframes close {
-  0%   {opacity:1}
-  100% {width:1px; opacity:0}
-}
-
-.pairs .box {
-  padding:10px;
-  transform-origin: 0 0 0;
-  -webkit-transform-origin: 0 0 0;
-  animation-name: unshrink;
-  animation-duration: .5s;
-  animation-fill-mode: forwards;
-  -webkit-animation-name: unshrink;
-  -webkit-animation-duration: .5s;
-  -webkit-animation-fill-mode: forwards;
-}
-
-.pairs .box.shrink {
-  animation-name: shrink;
-  animation-duration: .5s;
-  animation-fill-mode: forwards;
-  -webkit-animation-name: shrink;
-  -webkit-animation-duration: .5s;
-  -webkit-animation-fill-mode: forwards;
-}
-
-@-webkit-keyframes unshrink {
-  0% { -webkit-transform: scale(.75); transform: scale(.75); width:130%}
-  100% {-webkit-transform: scale(1); transform: scale(1); width:100%}
-}
-
-@keyframes unshrink {
-  0% { -webkit-transform: scale(.75); transform: scale(.75); width:130%}
-  100% {-webkit-transform: scale(1); transform: scale(1); width:100%}
-}
-
-@-webkit-keyframes shrink {
-  100% { -webkit-transform: scale(.75); transform: scale(.75); width:130%}
-  0% {-webkit-transform: scale(1); transform: scale(1); width:100%}
-}
-
-@keyframes shrink {
-  100% { -webkit-transform: scale(.75); transform: scale(.75); width:130%}
-  0% {-webkit-transform: scale(1); transform: scale(1); width:100%}
-}
-
-.detail .wrap .closeButton {
+.detail .closeButton {
   text-align:right;
   padding:5px 25px;
   color:#888;
 }
 
-.detail .wrap #chart {
+.detail #chart {
   height:400px;
   overflow:hidden;
   border:none;
@@ -314,7 +252,7 @@
   border-bottom: 1px solid #444;
 }
 
-.detail .wrap #chart.dark .priceChart .axis text {
+.detail #chart.dark .priceChart .axis text {
   fill: #333;
   stroke: #333;
 }
@@ -365,10 +303,9 @@
 }
 
 .detail .description .issuer {
-  font-size: 9px;
-  height: 12px;
-  line-height:12px;
-  width: 200px;
+  font-size: 8px;
+  height: 11px;
+  line-height:11px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow:hidden;
@@ -377,17 +314,18 @@
 
 .detail .description .name {
   color:#69f;
-  font-size:14px;
-  line-height:16px;
+  font-size:12px;
+  line-height:12px;
 }
 
 .detail .description .base .issuer {
   text-align: right;
+  width: 200px;
 }
 
 .detail .description .last {
   padding: 0;
-  padding:15px;
+  padding:12px 20px;
   margin:0;
   float:right;
   text-align: right;
@@ -417,4 +355,69 @@
   animation-duration: 1.5s;
   -webkit-animation-name: unch;
   -webkit-animation-duration: 1.5s;
+}
+
+.trade .detail .chart,
+.trade .detail .orderbook {
+  border-bottom: 1px solid #222;
+}
+
+@media (max-width: 650px) {
+  .trade .pairs .wrap {
+    width: 660px;
+  }
+}
+
+@media (max-width: 520px) {
+  .trade .pairs .wrap {
+    width: 495px;
+  }
+}
+
+
+@media (max-width: 320px) {
+  .trade .pairs .wrap {
+    width: 335px;
+  }
+}
+
+
+@media (max-width: 620px) {
+  .trade .detail {
+    position:absolute;
+    width: 100%;
+  }
+
+  .trade .detail .description {
+    width: 100%;
+  }
+
+  .trade .detail .description .currencies {
+    width: 100%;
+    text-align: center;
+  }
+
+  .trade .detail .description .base,
+  .trade .detail .description .counter {
+    width: 180px;
+  }
+
+  .trade .detail .description .last {
+    float: none;
+    text-align: center;
+    padding: 5px;
+  }
+}
+
+@media (max-width: 500px) {
+  .trade .detail .orderbook {
+    height: 350px;
+  }
+
+  .trade .detail table tr:nth-child(n + 16),
+  .trade .detail table td.sum,
+  .trade .detail .bidsTable th:first-child,
+  .trade .detail .asksTable th:last-child, {
+    display: none;
+  }
 }

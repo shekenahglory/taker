@@ -1,7 +1,7 @@
 .detail .orderbook {
   overflow: hidden;
   clear: both;
-  height: 1640px;
+  height: 643px;
 }
 
 
@@ -19,6 +19,7 @@
   font-weight:normal;
   padding: 5px 15px;
   text-align:right;
+  border-bottom: 1px solid #222;
 }
 .orderbook table th span {
   display:block;

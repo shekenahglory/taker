@@ -1,6 +1,6 @@
 angular
 .module('pricebook', [])
-.directive('pricebook', function() {
+.directive('pricebook', function($window) {
   var reloadTimer;
 
   function prepareTable (div, base, counter) {
@@ -258,69 +258,146 @@ angular
     var uri = options.secure ? 'wss://' : 'ws://' +
       options.host + (options.port ? ':' + options.port : '');
 
+    var base;
+    var counter;
+
     self._connected = false;
     self.onPricebook = function() {};
     self.onDelta = function() {};
+    self._retry = 0;
+    self._shouldConnect;
 
-    ws = new WebSocket(uri);
+    // connect
+    self.connect = function() {
+      self._shouldConnect = true;
 
-    ws.onopen = function() {
-      var message;
-
-      console.log('pricebook client connected');
-      self._connected = true;
-
-      while (message = queue.pop()) {
-        send(message);
+      if (self._ws) {
+        self._ws.onmessage = null;
+        self._ws.onclose = null;
+        self._ws.close();
+        delete self._ws;
       }
-    };
 
-    ws.onmessage = function(message) {
-      var event;
+      self._ws = new WebSocket(uri);
 
-      message = JSON.parse(message.data);
+      self._ws.onopen = function() {
+        var message;
 
-      if (message.pricebook) {
-        self.onPricebook(message.pricebook);
+        console.log('pricebook client connected');
+        self._connected = true;
+        self._retry = 0;
 
-      } else if (message.delta) {
-        self.onDelta(message.delta);
+        if (base && counter) {
+          resubscribe();
+        }
 
-      } else {
-        console.log(message);
+        while (message = queue.pop()) {
+          send(message);
+        }
       }
-    };
 
-    ws.onclose = function() {
-      console.log('pricebook connection closed');
+      // incoming message
+      self._ws.onmessage = function(message) {
+        var event;
+
+        message = JSON.parse(message.data);
+        if (!message.base || !message.counter) {
+          console.log(message);
+
+        } else if (!base || !counter) {
+          console.log('unsubscribed', message.base, message.counter);
+
+        } else if (message.base.currency != base.currency ||
+                   message.base.issuer != base.issuer ||
+                   message.counter.currency != counter.currency ||
+                   message.counter.issuer != counter.issuer) {
+          console.log('no longer subscribed', message.base, message.counter);
+
+        } else if (message.pricebook) {
+          self.onPricebook(message.pricebook);
+
+        } else if (message.delta) {
+          self.onDelta(message.delta);
+
+        } else {
+          console.log(message);
+        }
+      };
+
+      // connection closed
+      self._ws.onclose = function() {
+        self._connected = false;
+        if (self._shouldConnect) {
+          retryConnect();
+        }
+      }
     }
 
+    // disconnect
+    self.disconnect = function() {
+      self.shouldConnect = false;
+      self._retry = 0;
+
+      if (self._ws) {
+        self._ws.close();
+      }
+    };
+
     self.subscribe = function (pair) {
+      if (base && counter) {
+        var message = {
+          method: 'unsubscribe',
+          params: {
+            base: base,
+            counter: counter
+          }
+        };
+
+        send(message);
+      }
+
+      base = pair.base;
+      counter = pair.counter;
+      resubscribe();
+    };
+
+
+    function resubscribe() {
       var message = {
         method: 'subscribe',
         params: {
-          base: pair.base,
-          counter: pair.counter
+          base: base,
+          counter: counter
         }
       };
 
       send(message);
-    };
+    }
 
-    self.unsubscribe = function (pair) {
-      var message = {
-        method: 'unsubscribe',
-        params: {
-          base: pair.base,
-          counter: pair.counter
+    function retryConnect() {
+
+      self._retry++;
+
+      var retryTimeout = (self._retry < 40)
+        // First, for 2 seconds: 20 times per second
+        ? (1000 / 20)
+        : (self._retry < 40 + 60)
+          // Then, for 1 minute: once per second
+          ? (1000)
+          : (self._retry < 40 + 60 + 60)
+            // Then, for 10 minutes: once every 10 seconds
+            ? (10 * 1000)
+            // Then: once every 30 seconds
+            : (30 * 1000);
+
+      function connectionRetry() {
+        if (self._shouldConnect) {
+          self.connect();
         }
-      };
+      }
 
-      send(message);
-    };
-
-    self.close = function() {
-      ws.close();
+       console.log('pricebook connection retry:', self, retryTimeout);
+      self._retryTimer = setTimeout(connectionRetry, retryTimeout);
     };
 
     function send (message) {
@@ -330,7 +407,7 @@ angular
       }
 
       try {
-        ws.send(JSON.stringify(message));
+        self._ws.send(JSON.stringify(message));
       } catch (e) {
         console.log(e);
       }
@@ -343,23 +420,27 @@ angular
       var div = d3.select(element[0]);
       var client = new PricebookClient({
         host: 'localhost',
-        port: 8080
+        port: 7171
       });
       var base;
       var counter;
       var pricebook;
 
+      client.connect();
+
+      // force reconnect when coming online
+      window.addEventListener("online", function() {
+        console.log('online');
+        client._retry = 0;
+        client.connect();
+      });
+
       element.addClass('orderbook');
 
       scope.$watch('bookOptions', function() {
 
-        //first unsubscribe
         if (base && counter) {
           pricebook = {};
-          client.unsubscribe({
-            base: base,
-            counter: counter
-          })
         }
 
         base = scope.bookOptions ? scope.bookOptions.base : undefined;

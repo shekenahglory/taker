@@ -30,22 +30,27 @@ angular.module('rippleName', [])
 
   var lookupRequest = function (url, callback) {
     $http.get(url)
-    .success(function(resp) {
+    .then(function(resp) {
       var data;
 
-      if (resp.links && resp.links.length) {
+      if (resp.data &&
+          resp.data.links &&
+          resp.data.links.length) {
         data = {
-          name: getRef(nameRel, resp.links),
-          address: getRef(addressRel, resp.links)
+          name: getRef(nameRel, resp.data.links),
+          address: getRef(addressRel, resp.data.links)
         };
       }
 
       callback(data);
-    }).error(function(err) {
-      console.log(err);
+    },
+    function(resp) {
+      if (resp.data && resp.status !== 404) {
+        console.log(resp.data);
+      }
       callback();
     });
-  }
+  };
 
   /**
    * lookup
@@ -61,11 +66,11 @@ angular.module('rippleName', [])
     if (text && text.length > 20) {
       lookupHelper(text, names, callback);
     } else if (text) {
-      lookupHelper(text, reversed, callback);
+      lookupHelper(text, reversed, callback, true);
     }
 
     // handle lookup
-    function lookupHelper (comp, cache, cb) {
+    function lookupHelper (comp, cache, cb, isName) {
       if (cache[comp] && cache[comp] === '#pending') {
 
         setTimeout(function() {
@@ -76,23 +81,23 @@ angular.module('rippleName', [])
         cb();
 
       } else if (cache[comp]) {
-        cb(cache[comp]);
+        cb(cache[comp].name, cache[comp].address);
 
       } else {
         cache[comp] = '#pending';
         lookupRequest(URL + comp, function(resp) {
           if (resp) {
-            names[resp.address] = resp.name;
-            reversed[resp.name] = resp.address;
+            names[resp.address] = resp;
+            reversed[resp.name] = resp;
 
             // include a link
             // for the name as it
             // originally came as well
-            if (type === 'name') {
-              reversed[comp] = resp.address;
+            if (isName) {
+              reversed[comp] = resp;
             }
 
-            cb(resp.name);
+            cb(resp.name, resp.address);
 
           } else {
             cache[comp] = '#unknown';
